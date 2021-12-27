@@ -7,3 +7,5 @@ To install the default pre-commit hook, run:
 ```sh
 nix develop github:akirak/git-hooks
 ```
+
+You will need `pre-commit` executable in your PATH.
