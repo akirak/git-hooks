@@ -10,7 +10,11 @@
     inputs.nixpkgs.follows = "nixpkgs";
     inputs.flake-utils.follows = "flake-utils";
   };
-  inputs.flake-no-path.url = "github:akirak/flake-no-path";
+  inputs.flake-no-path = {
+    url = "github:akirak/flake-no-path";
+    inputs.nixpkgs.follows = "nixpkgs";
+    inputs.flake-utils.follows = "flake-utils";
+  };
 
   outputs =
     { self
