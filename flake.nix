@@ -34,7 +34,7 @@
           inherit hooks;
         };
 
-        checks = {
+        checks = nixpkgs.lib.fix (checks: {
           default = {
             nixpkgs-fmt.enable = true;
             nix-linter.enable = false;
@@ -48,11 +48,30 @@
               pass_filenames = true;
             };
           };
-        };
+          deno = checks.default // {
+            deno-fmt = {
+              enable = true;
+              name = "Reformat deno code";
+              entry = "${pkgs.deno}/bin/deno fmt";
+              files = "\\.(t|j)sx?$";
+              pass_filenames = true;
+            };
+            deno-lint = {
+              enable = true;
+              name = "Lint deno code";
+              entry = "${pkgs.deno}/bin/deno lint";
+              files = "\\.(t|j)sx?$";
+              pass_filenames = true;
+            };
+          };
+        });
       in
       rec {
         devShell = pkgs.mkShell {
           inherit (run checks.default) shellHook;
+        };
+        devShells.deno = pkgs.mkShell {
+          inherit (run checks.deno) shellHook;
         };
       });
 }
