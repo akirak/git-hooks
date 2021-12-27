@@ -14,6 +14,7 @@
     url = "github:akirak/flake-no-path";
     inputs.nixpkgs.follows = "nixpkgs";
     inputs.flake-utils.follows = "flake-utils";
+    inputs.pre-commit-hooks.follows = "pre-commit-hooks";
   };
 
   outputs =
