@@ -36,7 +36,7 @@
 
         checks = nixpkgs.lib.fix (checks: {
           default = {
-            nixpkgs-fmt.enable = true;
+            alejandra.enable = true;
             nix-linter.enable = false;
             flake-no-path = {
               enable = true;

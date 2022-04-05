@@ -13,11 +13,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1645108003,
-        "narHash": "sha256-jbK6Nf/zcag6XALW50TYlbSpg8fWMnPnNEmNtsJLlUk=",
+        "lastModified": 1649195861,
+        "narHash": "sha256-cdG6wLBSVwhZHG+smwlsVXafBEFr01gCeM3sWXSwB6I=",
         "owner": "akirak",
         "repo": "flake-no-path",
-        "rev": "8f863f2cbf4572e3bb1f265dea0a32301b78a554",
+        "rev": "cd43da3442e4ffce4a11ffc10bd22b07d9c1ba66",
         "type": "github"
       },
       "original": {
