@@ -17,38 +17,40 @@
     inputs.pre-commit-hooks.follows = "pre-commit-hooks";
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , flake-utils
-    , pre-commit-hooks
-    , ...
-    } @ inputs:
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    pre-commit-hooks,
+    ...
+  } @ inputs:
     flake-utils.lib.eachDefaultSystem
-      (system:
-      let
-        pkgs = import nixpkgs { inherit system; };
+    (system: let
+      pkgs = import nixpkgs {inherit system;};
 
-        run = hooks: pre-commit-hooks.lib.${system}.run {
+      run = hooks:
+        pre-commit-hooks.lib.${system}.run {
           src = ./.;
           inherit hooks;
         };
 
-        checks = nixpkgs.lib.fix (checks: {
-          default = {
-            alejandra.enable = true;
-            nix-linter.enable = false;
-            flake-no-path = {
-              enable = true;
-              name = "Ensure that flake.lock does not contain a local path";
-              entry = "${
-                inputs.flake-no-path.packages.${system}.flake-no-path
-              }/bin/flake-no-path";
-              files = "flake\.lock$";
-              pass_filenames = true;
-            };
+      checks = nixpkgs.lib.fix (checks: {
+        default = {
+          alejandra.enable = true;
+          nix-linter.enable = false;
+          flake-no-path = {
+            enable = true;
+            name = "Ensure that flake.lock does not contain a local path";
+            entry = "${
+              inputs.flake-no-path.packages.${system}.flake-no-path
+            }/bin/flake-no-path";
+            files = "flake\.lock$";
+            pass_filenames = true;
           };
-          deno = checks.default // {
+        };
+        deno =
+          checks.default
+          // {
             deno-fmt = {
               enable = true;
               name = "Reformat deno code";
@@ -64,14 +66,13 @@
               pass_filenames = true;
             };
           };
-        });
-      in
-      rec {
-        devShell = pkgs.mkShell {
-          inherit (run checks.default) shellHook;
-        };
-        devShells.deno = pkgs.mkShell {
-          inherit (run checks.deno) shellHook;
-        };
       });
+    in rec {
+      devShell = pkgs.mkShell {
+        inherit (run checks.default) shellHook;
+      };
+      devShells.deno = pkgs.mkShell {
+        inherit (run checks.deno) shellHook;
+      };
+    });
 }
